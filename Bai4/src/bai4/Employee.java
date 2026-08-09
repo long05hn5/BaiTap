@@ -1,64 +1,89 @@
-
 package bai4;
 
-
 public class Employee {
-    private int mNV;
-    private String hoVaTen;
-    private float luongCoBan;
-    private int soNgayCong;
+
+    private int employeeId;
+    private String fullName;
+    private float basicSalary;
+    private int workDays;
 
     public Employee() {
     }
 
-    public Employee(int mNV, String hoVaTen, float luongCoBan, int soNgayCong) {
-        this.mNV = mNV;
-        this.hoVaTen = hoVaTen;
-        this.luongCoBan = luongCoBan;
-        this.soNgayCong = soNgayCong;
+    public Employee(int employeeId, String fullName, float basicSalary, int workDays) {
+        this.employeeId = employeeId;
+        this.fullName = fullName;
+        this.basicSalary = basicSalary;
+        this.workDays = workDays;
     }
 
-    public int getmNV() {
-        return mNV;
+    public int getEmployeeId() {
+        return employeeId;
     }
 
-    public void setmNV(int mNV) {
-        this.mNV = mNV;
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
     }
 
-    public String getHoVaTen() {
-        return hoVaTen;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setHoVaTen(String hoVaTen) {
-        this.hoVaTen = hoVaTen;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public float getLuongCoBan() {
-        return luongCoBan;
+    public float getBasicSalary() {
+        return basicSalary;
     }
 
-    public void setLuongCoBan(float luongCoBan) {
-        this.luongCoBan = luongCoBan;
+    public void setBasicSalary(float basicSalary) {
+        this.basicSalary = basicSalary;
     }
 
-    public int getSoNgayCong() {
-        return soNgayCong;
+    public int getWorkDays() {
+        return workDays;
     }
 
-    public void setSoNgayCong(int soNgayCong) {
-        this.soNgayCong = soNgayCong;
+    public void setWorkDays(int workDays) {
+        this.workDays = workDays;
     }
 
-   public float luong(float luong){
-       luong = (this.luongCoBan * this.soNgayCong)/26;
-       return luong;
-   }
+    public float calculateSalary(float salary) {
+        salary = (this.basicSalary * this.workDays) / 26;
+        return salary;
+    }
+
+    public boolean validId() {
+        if (this.employeeId > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean validName() {
+        if (this.fullName != null && this.fullName != "") {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean validBas() {
+        if (this.basicSalary >= 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean validWor() {
+        if (this.workDays >= 0) {
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public String toString() {
-        return mNV + ", " + hoVaTen +  ", " + luongCoBan  + ", " + soNgayCong +", " + this.luong(luongCoBan);
+        return employeeId + ", " + fullName + ", " + basicSalary + ", " + workDays + ", " + this.calculateSalary(basicSalary);
     }
-   
-   
 }

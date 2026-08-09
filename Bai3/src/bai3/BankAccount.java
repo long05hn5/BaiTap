@@ -2,58 +2,93 @@ package bai3;
 
 public class BankAccount {
 
-    private int sTK;
-    private String tenTK;
-    private float soDu;
+    private int accountNumber;
+    private String accountName;
+    private float balance;
 
     public BankAccount() {
     }
 
-    public BankAccount(int sTK, String tenTK, float soDu) {
-        this.sTK = sTK;
-        this.tenTK = tenTK;
-        this.soDu = soDu;
+    public BankAccount(int accountNumber, String accountName, float balance) {
+        this.accountNumber = accountNumber;
+        this.accountName = accountName;
+        this.balance = balance;
     }
 
-    public int getsTK() {
-        return sTK;
+    public int getAccountNumber() {
+        return accountNumber;
     }
 
-    public void setsTK(int sTK) {
-        this.sTK = sTK;
+    public void setAccountNumber(int accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
-    public String getTenTK() {
-        return tenTK;
+    public String getAccountName() {
+        return accountName;
     }
 
-    public void setTenTK(String tenTK) {
-        this.tenTK = tenTK;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
-    public float getSoDu() {
-        return soDu;
+    public float getBalance() {
+        return balance;
     }
 
-    public void setSoDu(float soDu) {
-        this.soDu = soDu;
+    public void setBalance(float balance) {
+        this.balance = balance;
     }
 
     public float napTien(float napTien) {
-        this.soDu = napTien + this.soDu;
-        return this.soDu;
+        this.balance = napTien + this.balance;
+        return this.balance;
     }
 
     public float rutTien(float rutTien) {
-        if (this.soDu >= rutTien) {
-            this.soDu = this.soDu - rutTien ;
+        if (this.balance >= rutTien) {
+            this.balance = this.balance - rutTien;
         }
-        return this.soDu;
+        return this.balance;
+    }
+
+    public Boolean validNum() {
+        if (this.accountNumber > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean validBal() {
+        if (this.balance >= 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean validAcc() {
+        if (this.accountName != null && this.accountName != "") {
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean validAdd(float napTien) {
+        if (napTien >= 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean validWith(float rutTien) {
+        if (rutTien > 0 && rutTien <= this.balance) {
+            return true;
+        }
+        return false;
     }
 
     @Override
     public String toString() {
-        return sTK + ", " + tenTK + ", " + soDu;
+        return accountNumber + ", " + accountName + ", " + balance;
     }
 
 }

@@ -1,52 +1,64 @@
-
 package bai2;
 
-
 public class Rectangle {
-    private int chieuDai;
-    private int chieuRong;
+
+    private int length;
+    private int width;
 
     public Rectangle() {
     }
 
-    public Rectangle(int chieuDai, int chieuRong) {
-        this.chieuDai = chieuDai;
-        this.chieuRong = chieuRong;
+    public Rectangle(int length, int width) {
+        this.length = length;
+        this.width = width;
     }
 
-    public int getChieuDai() {
-        return chieuDai;
+    public int getLength() {
+        return length;
     }
 
-    public void setChieuDai(int chieuDai) {
-        this.chieuDai = chieuDai;
+    public void setLength(int length) {
+        this.length = length;
     }
 
-    public int getChieuRong() {
-        return chieuRong;
+    public int getWidth() {
+        return width;
     }
 
-    public void setChieuRong(int chieuRong) {
-        this.chieuRong = chieuRong;
+    public void setWidth(int width) {
+        this.width = width;
     }
-    
-    public String hinhVuong(){
-        if(this.chieuDai % this.chieuRong == 0 ){
+
+    public String hinhVuong() {
+        if (this.length % this.width == 0) {
             return "Hinh Vuong";
-        } else 
-            return "Khong phai la hinh Vuong";      
+        } else {
+            return "Khong phai la hinh Vuong";
+        }
     }
-    
-    public int tinhDienTich(){
+
+    public int tinhDienTich() {
         int dienTich = 0;
-        dienTich = this.chieuDai * this.chieuRong;
+        dienTich = this.length * this.width;
         return dienTich;
+    }
+
+    public Boolean validLen() {
+        if (this.length > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean validWid() {
+        if (this.width > 0) {
+            return true;
+        }
+        return false;
     }
 
     @Override
     public String toString() {
-        return  "Chieu Dai: " + chieuDai + ", " + "Chieu Rong: " + chieuRong + ", " + this.hinhVuong() + ", " + this.tinhDienTich() ;
+        return "Chieu Dai: " + length + ", " + "Chieu Rong: " + width + ", " + this.hinhVuong() + ", " + this.tinhDienTich();
     }
-    
-    
 }

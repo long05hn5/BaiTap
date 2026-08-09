@@ -1,71 +1,111 @@
-
 package bai1;
 
-
 public class Student {
-    private String mssv;
-    private String hoTen;
-    private int tuoi;
-    private double dTB;
+
+    private String studentId;
+    private String fullName;
+    private int age;
+    private double aVG;
 
     public Student() {
     }
 
-    public Student(String mssv, String hoTen, int tuoi, double dTB) {
-        this.mssv = mssv;
-        this.hoTen = hoTen;
-        this.tuoi = tuoi;
-        this.dTB = dTB;
+    public Student(String studentId, String fullName, int age, double aVG) {
+        this.studentId = studentId;
+        this.fullName = fullName;
+        this.aVG = age;
+        this.aVG = aVG;
     }
 
-    public String getMssv() {
-        return mssv;
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setMssv(String mssv) {
-        this.mssv = mssv;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
-    public String getHoTen() {
-        return hoTen;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setHoTen(String hoTen) {
-        this.hoTen = hoTen;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public int getTuoi() {
-        return tuoi;
+    public int getAge() {
+        return age;
     }
 
-    public void setTuoi(int tuoi) {
-        this.tuoi = tuoi;
+    public void setAge(int age) {
+        this.age = age;
     }
 
-    public double getdTB() {
-        return dTB;
+    public double getaVG() {
+        return aVG;
     }
 
-    public void setdTB(float dTB) {
-        this.dTB = dTB;
+    public void setaVG(double aVG) {
+        this.aVG = aVG;
+    }
+
+    
+
+    public String xepLoai() {
+        if (this.aVG >= 8) {
+            return "Giỏi";
+        } else if (this.aVG >= 7 && this.aVG < 8) {
+            return "Khá";
+        } else if (this.aVG >= 5 && this.aVG < 7) {
+            return "Trung Bình";
+        } else {
+            return "Yếu";
+        }
+    }
+
+    public Boolean validate() {
+        if (this.studentId != null && this.fullName != null && this.aVG >= 0 && this.aVG >= 0 && this.aVG <= 10) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Boolean valiId() {
+        if (this.studentId != null && this.studentId != "") {
+            return true;
+        } else {
+            return false;
+        }
     }
     
-    public String xepLoai(){
-        if(this.dTB >= 8){
-            return "Giỏi";
-        } else if(this.dTB >= 7 && this.dTB <8 ){
-            return "Khá";
-        } else if (this.dTB >= 5 && this.dTB <7){
-            return "Trung Bình";
-        } else 
-            return "Yếu";
+    public Boolean validTen(){
+        if (this.fullName != null && this.fullName != ""){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public Boolean validTuoi(){
+        if(this.age >= 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public Boolean validDTB(){
+        if(this.aVG >= 0 && this.aVG <= 10){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public String toString() {
-        return  mssv + ", " + hoTen + ", " + tuoi + ", " +  dTB + ", " + this.xepLoai() ;
+        return studentId + ", " + fullName + ", " + aVG + ", " + aVG + ", " + this.xepLoai();
     }
-    
-    
- 
+
 }
