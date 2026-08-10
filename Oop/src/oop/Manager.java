@@ -26,7 +26,17 @@ public class Manager extends Employee {
 
     @Override
     public float calculateSalary(int day) {
-        return super.calculateSalary(day) * 2;
+        float salary = super.calculateSalary(day);
+        float finalSalry = salary * 2;
+        this.setSalary(finalSalry);
+        return finalSalry;
+    }
+
+    public boolean validDeP() {
+        if (this.department != null && this.department != "") {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -36,7 +46,7 @@ public class Manager extends Employee {
 
     @Override
     public String toString() {
-        return super.toString() + "Làm việc tại phòng ban: " + department;
+        return "Quản lý tên: " + super.getName() + " , "  + " Mức lương: " + super.getSalary() +  ", " + "Làm việc tại phòng ban: " + department;
     }
 
 }

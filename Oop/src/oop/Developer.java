@@ -24,7 +24,11 @@ public class Developer extends Employee {
         this.programmingLanguage = programmingLanguage;
     }
     
-    
+    public boolean validPL(){
+        if(this.programmingLanguage != null && this.programmingLanguage != ""){
+            return true;
+        } return false;
+    }
 
     @Override
     void work() {
@@ -33,7 +37,7 @@ public class Developer extends Employee {
 
     @Override
     public String toString() {
-        return super.toString() + "Lập trình ngôn ngữ: " + programmingLanguage;
+        return "Developer tên: " + super.getName() + " , "  + " Mức lương: " + super.getSalary() +  ", " + "Lập trình ngôn ngữ: " + programmingLanguage;
     }
 
 }
