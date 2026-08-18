@@ -3,7 +3,6 @@ package oop;
 public class Manager extends Employee {
 
     private String department;
-
     public Manager() {
     }
 
@@ -12,8 +11,11 @@ public class Manager extends Employee {
     }
 
     public Manager(String department, String name, float salary) {
-        super(name, salary);
+        super(name, salary *2);
         this.department = department;
+    }
+    public Manager( String name, float salary) {
+        super(name, salary * 2);
     }
 
     public String getDepartment() {
@@ -46,7 +48,7 @@ public class Manager extends Employee {
 
     @Override
     public String toString() {
-        return "Quản lý tên: " + super.getName() + " , "  + " Mức lương: " + super.getSalary() +  ", " + "Làm việc tại phòng ban: " + department;
+        return "ID của nhân viên là: "+super.getId()+"Quản lý tên: " + super.getName() + " , "  + " Mức lương: " + super.getSalary() +  ", " + "Làm việc tại phòng ban: " + department;
     }
 
 }

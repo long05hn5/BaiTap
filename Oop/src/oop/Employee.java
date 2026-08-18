@@ -4,8 +4,23 @@ public class Employee {
 
     private String name;
     private float salary;
+    private int id;
+    
+
+    public Employee(float salary, int id) {
+        this.salary = salary;
+        this.id = id;
+    }
 
     public Employee() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Employee(String name, float salary) {
@@ -49,17 +64,16 @@ public class Employee {
     }
 
     public boolean validSalary() {
-        if (this.salary >= 0) {
-            return true;
+        try {
+            if (this.salary >= 0) {
+                return true;
+            }else{
+                return false;
+            }
+        } catch (NumberFormatException e ) {
+            System.out.println("Chỉ được nhập số");
+            return false;
         }
-        return false;
-    }
-    
-    public boolean validDay(int day) {
-        if (day >= 0) {
-            return true;
-        }
-        return false;
     }
 
     public static String companyInfo() {
