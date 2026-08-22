@@ -48,19 +48,20 @@ public class TapLuyen {
                     lib.printListBook();
                     break;
                 case 6:
-                    int id3 = lib.id();
-                    lib.setQuantityBook(id3);
+                    lib.countListBookByTitle();
                     break;
                 case 7:
                     lib.searchMaxPriceBook();
                     break;
                 case 8:
-                    lib.caculate();
+                    lib.caculateTotal();
                     break;
                 case 9:
                     lib.viewArrange();
                    break;
-                    
+                case 10:
+                    lib.arrangeListBookByTitle();
+                    break;
             }
                 
             

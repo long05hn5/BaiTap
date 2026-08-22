@@ -1,8 +1,10 @@
 package tapluyen;
-
+import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Library {
 
@@ -45,18 +47,6 @@ public class Library {
 
         } while (!book.validPrice() || !valid);
 
-        do {
-            try {
-                System.out.println("Nhập quantity: ");
-                quantity = Integer.parseInt(sc.nextLine());
-                book.setQuantity(quantity);
-                valid = true;
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input");
-                valid = false;
-            }
-
-        } while (!book.validQuantity() || !valid);
         return book;
     }
 
@@ -101,6 +91,7 @@ public class Library {
         System.out.println("Nhập 7 để tìm sách có giá cao nhất");
         System.out.println("Nhập 8 để tìm tổng giá trị kho sách");
         System.out.println("Nhập 9 để sắp xếp");
+        System.out.println("Nhập 10 để sắp xếp theo alaphabet");
         System.out.println("Chọn");
     }
 
@@ -129,34 +120,6 @@ public class Library {
         return null;
     }
 
-    public Book updateQuantity() {
-        Book book = new Book();
-        Scanner sc = new Scanner(System.in);
-
-        int quantity;
-        boolean valid;
-
-        do {
-            try {
-                System.out.println("Nhập quantity: ");
-                quantity = Integer.parseInt(sc.nextLine());
-                book.setQuantity(quantity);
-                valid = true;
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input");
-                valid = false;
-            }
-
-        } while (!book.validQuantity() || !valid);
-        return book;
-    }
-
-    public void setQuantityBook(int id) {
-        Book book = getBook(id);
-        Book bookk = updateQuantity();
-        book.setQuantity(bookk.getQuantity());
-    }
-
     public void arrangeListBook() {
         for (int i = 0; i < books.size(); i++) {
             for (int j = i + 1; j < books.size(); j++) {
@@ -172,15 +135,6 @@ public class Library {
     public void searchMaxPriceBook() {
         arrangeListBook();
         System.out.println(books.get(0));
-    }
-
-    public void caculate() {
-        double total;
-        for (int i = 0; i < books.size(); i++) {
-            total = books.get(i).getPrice() * books.get(i).getQuantity();
-            System.out.println(books.get(i) + " Tổng giá trị kho sách: " + total);
-        }
-
     }
 
     public void arrangeListBookLow() {
@@ -205,4 +159,26 @@ public class Library {
         printListBook();
     }
 
+    public void countListBookByTitle() {
+        Map<String, Long> totalCountByTitle = books.stream()
+                .collect(Collectors.groupingBy(
+                        Book::getTitle,
+                        Collectors.counting()
+                ));
+        totalCountByTitle.forEach((title, count) -> {
+        System.out.println("Tên sách " + title + "| Số Lượng: " + count);
+    });
+    }
+    
+    public void caculateTotal(){
+        double total = books.stream()
+                .mapToDouble(Book::getPrice)
+                .sum();
+        System.out.println("Tổng giá của libary: " + total);
+    }
+    
+    public void arrangeListBookByTitle(){
+        books.sort((book1,book2) -> book1.getTitle().compareToIgnoreCase(book2.getTitle()));
+        printListBook();
+    }
 }
