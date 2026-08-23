@@ -30,12 +30,12 @@ public class TapLuyen {
                     lib.insertBookToLibary(book);
                     break;
                 case 2:
-                    int id = lib.id();
+                    int id = lib.inputId();
                     lib.deleteBookById(id);
                     lib.printListBook();
                     break;
                 case 3:
-                    int id2 = lib.id();
+                    int id2 = lib.inputId();
                     lib.searchBookById(id2);
                     break;
                 case 4:
