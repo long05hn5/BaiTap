@@ -1,4 +1,5 @@
 package tapluyen;
+
 import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,9 +70,28 @@ public class Library {
         }
     }
 
+    public void arrageBooksMaximumtoMinimum() {
+        for (int i = 0; i < books.size(); i++) {
+            for (int j = i + 1; j < books.size(); j++) {
+                if (books.get(i).getId() < books.get(j).getId()) {  // 1 < 2 thì đổi chỗ  2 1 
+                    Book temp = books.get(i);
+                    books.set(i, books.get(j));
+                    books.set(j, temp);
+                }
+            }
+        }
+    }
+
+    public int generateIdInList() {
+        if (books.size() > 0) {
+            return books.get(0).getId() + 1;
+        } else {
+            return 1;
+        }
+    }
+
     public void insertBookToLibary(Book book) {
-        int id = books.size() + 1;
-        book.setId(id);
+        book.setId(generateIdInList());
         books.add(book);
     }
 
@@ -103,7 +123,7 @@ public class Library {
         }
     }
 
-    public int id() {
+    public int inputId() {
         Scanner sc = new Scanner(System.in);
         int id;
         System.out.println("Nhập ID");
@@ -166,19 +186,19 @@ public class Library {
                         Collectors.counting()
                 ));
         totalCountByTitle.forEach((title, count) -> {
-        System.out.println("Tên sách " + title + "| Số Lượng: " + count);
-    });
+            System.out.println("Tên sách " + title + "| Số Lượng: " + count);
+        });
     }
-    
-    public void caculateTotal(){
+
+    public void caculateTotal() {
         double total = books.stream()
                 .mapToDouble(Book::getPrice)
                 .sum();
         System.out.println("Tổng giá của libary: " + total);
     }
-    
-    public void arrangeListBookByTitle(){
-        books.sort((book1,book2) -> book1.getTitle().compareToIgnoreCase(book2.getTitle()));
+
+    public void arrangeListBookByTitle() {
+        books.sort((book1, book2) -> book1.getTitle().compareToIgnoreCase(book2.getTitle()));
         printListBook();
     }
 }
