@@ -75,12 +75,19 @@ public class Utility {
         System.out.print("Chọn:");
     }
 
-    public void deleteById(int id) {
-        for (int i = 0; i < products.size(); i++) {
+
+    public Product getProductById(int id){
+          for (int i = 0; i < products.size(); i++) {
             if (id == products.get(i).getId()) {
-                products.remove(i);
+              return product.get(i);
             }
         }
+    }
+    
+
+
+    public void deleteById(int id) {
+        products.remove(getProductById(id));
     }
 
     public int inputId() {
@@ -93,12 +100,15 @@ public class Utility {
 
     public void updateById(int id ) {
         Scanner sc = new Scanner(System.in);
-        for (Product p : products) {
-            if (id == p.getId()) {
-                p.input(sc);
-                return;
-            }
-        }
+        // for (Product p : products) {
+        //     if (id == p.getId()) {
+        //         p.input(sc);
+        //         return;
+        //     }
+        // }
+
+        Product p = getProductById(id).input(sc);
+        return;
 
     }
 }
