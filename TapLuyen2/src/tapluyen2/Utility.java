@@ -1,5 +1,10 @@
 package tapluyen2;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -10,7 +15,9 @@ public class Utility {
 
     public Utility() {
         products = new ArrayList<>();
+        loadProductFromFile();
     }
+    public static final String DEFAUL_FILE = "product.txt";
 
     public void arrageProductsMaximumtoMinimum() {
         for (int i = 0; i < products.size(); i++) {
@@ -72,19 +79,18 @@ public class Utility {
         System.out.println("Nhập 2 để xem sản phẩm");
         System.out.println("Nhập 3 để xóa sản phẩm");
         System.out.println("Nhập 4 để sửa sản phẩm");
+        System.out.println("Nhập 5 để save file");
         System.out.print("Chọn:");
     }
 
-
-    public Product getProductById(int id){
-          for (int i = 0; i < products.size(); i++) {
+    public Product getProductById(int id) {
+        for (int i = 0; i < products.size(); i++) {
             if (id == products.get(i).getId()) {
-              return product.get(i);
+                return products.get(i);
             }
         }
+        return null;
     }
-    
-
 
     public void deleteById(int id) {
         products.remove(getProductById(id));
@@ -98,7 +104,7 @@ public class Utility {
         return id;
     }
 
-    public void updateById(int id ) {
+    public void updateById(int id) {
         Scanner sc = new Scanner(System.in);
         // for (Product p : products) {
         //     if (id == p.getId()) {
@@ -107,8 +113,63 @@ public class Utility {
         //     }
         // }
 
-        Product p = getProductById(id).input(sc);
-        return;
+        getProductById(id).input(sc);
+    }
+
+    public boolean saveFile() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(DEFAUL_FILE))) {
+            for (Product p : products) {
+                writer.println(p.formatToSaveFile());
+            }
+            return true;
+        } catch (Exception ex) {
+            System.out.println("Save file failed" + ex.getMessage());
+            return false;
+        }
 
     }
+
+    public void loadProductFromFile() {
+        File file = new File(DEFAUL_FILE);
+        if (file.exists() == false) {
+            System.out.println("File khong ton tai");
+            return;
+        } else {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] parts = line.split(", ");
+          
+                    if (parts[0].equals("f")) {
+                        String id = parts[1];
+                        String name = parts[2];
+                        String price = parts[3];
+                        String expiryDate = parts[4];
+                        Product p = new Food(Integer.parseInt(id), name, Double.parseDouble(price), expiryDate);
+                        products.add(p);
+                    } else if (parts[0].equals("e")) {
+                        String id = parts[1];
+                        String name = parts[2];
+                        String price = parts[3];
+                        String warrantyMonths = parts[4];
+                        Product p = new Electronic(Integer.parseInt(id), name, Double.parseDouble(price), Integer.parseInt(warrantyMonths));
+                        products.add(p);
+                    } else if (parts[0].equals("c")) {
+                        String id = parts[1];
+                        String name = parts[2];
+                        String price = parts[3];
+                        String size = parts[4];
+                        String color = parts[5];
+                        Product p = new Clothing(Integer.parseInt(id), name, Double.parseDouble(price), Integer.parseInt(size), color);
+                        products.add(p);
+                    }
+                }
+
+            } catch (Exception ex) {
+                System.out.println("loadProductFromFile" + ex.getMessage());
+            }
+        }
+
+    }
+
 }

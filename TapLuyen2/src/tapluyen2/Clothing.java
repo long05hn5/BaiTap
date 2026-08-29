@@ -15,7 +15,7 @@ public class Clothing extends Product {
         this.color = color;
     }
 
-    public Clothing(int size, String color, int id, String name, double price) {
+    public Clothing( int id, String name, double price, int size, String color) {
         super(id, name, price);
         this.size = size;
         this.color = color;
@@ -77,12 +77,15 @@ public class Clothing extends Product {
         }while(!validSize() || !valid);
     }
     
-    
-    
-
     @Override
     public String toString() {
-        return super.toString() + " Size: " + size + " Màu: " + color;
+        return super.toString() + " , "  + " Size: " + size + " Màu: " + color;
     }
 
+    @Override
+    public String formatToSaveFile() {
+        return "c" + "," +super.formatToSaveFile() + ", "+ size + ", " + color; // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    
 }

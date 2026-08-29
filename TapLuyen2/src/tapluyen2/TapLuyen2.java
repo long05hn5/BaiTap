@@ -17,7 +17,9 @@ public class TapLuyen2 {
      */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        //Khi new 1 đối tượng , con luôn được thực thi
         Utility ut = new Utility();
+        
         int choice;
         do {
             ut.printMenu();
@@ -38,7 +40,9 @@ public class TapLuyen2 {
                     int id2 = ut.inputId();
                     ut.updateById(id2);
                     break;
-
+                case 5:
+                    ut.saveFile();
+                    break;
             }
         } while (choice != 0);
     }

@@ -13,7 +13,7 @@ public class Electronic extends Product {
         this.warrantyMonths = warrantyMonths;
     }
 
-    public Electronic(int warrantyMonths, int id, String name, double price) {
+    public Electronic(int id, String name, double price, int warrantyMonths) {
         super(id, name, price);
         this.warrantyMonths = warrantyMonths;
     }
@@ -35,7 +35,7 @@ public class Electronic extends Product {
                 System.out.println("Nhập số tháng bảo hành");
                 this.warrantyMonths = Integer.parseInt(sc.nextLine());
                 valid = true;
-            }catch(NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println("Nhập sai input");
                 valid = false;
             }
@@ -56,7 +56,12 @@ public class Electronic extends Product {
 
     @Override
     public String toString() {
-        return super.toString() + " Tháng bảo hành:" + warrantyMonths;
+        return super.toString() + " , " + " Tháng bảo hành:" + warrantyMonths;
+    }
+
+    @Override
+    public String formatToSaveFile() {
+        return  "e" + "," + super.formatToSaveFile() + ", " + warrantyMonths;
     }
 
 }

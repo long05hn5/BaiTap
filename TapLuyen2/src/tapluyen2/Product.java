@@ -3,6 +3,7 @@ package tapluyen2;
 import java.util.Scanner;
 
 public class Product {
+
     private int id;
     private String name;
     private double price;
@@ -40,45 +41,49 @@ public class Product {
         this.price = price;
     }
 
-    public boolean validName(){
-        if(this.name != null && this.name != ""){
+    public boolean validName() {
+        if (this.name != null && this.name != "") {
             return true;
         }
         return false;
     }
-    
-    public boolean validPrice(){
-        try{
-            if(this.price > 0){
+
+    public boolean validPrice() {
+        try {
+            if (this.price > 0) {
                 return true;
             }
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException e) {
             System.out.println("Nhập sai dữ liệu");
         }
         return false;
     }
-    
-    public void input(Scanner sc){
+
+    public void input(Scanner sc) {
         boolean valid;
-        do{
+        do {
             System.out.println("Nhập tên sản phẩm");
             this.name = sc.nextLine();
-        }while(!validName());
-        do{
-            try{
+        } while (!validName());
+        do {
+            try {
                 System.out.println("Nhập giá sản phẩm");
                 this.price = Double.parseDouble(sc.nextLine());
                 valid = true;
-            }catch(NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println("Nhập sai input");
                 valid = false;
             }
-        }while(!validPrice() || !valid);
+        } while (!validPrice() || !valid);
     }
 
     @Override
     public String toString() {
-        return "ID sản phẩm: " + id + "Tên sản phẩm: " + name + " Giá sản phẩm: " + price;
+        return "ID sản phẩm: " + id + " , " + "Tên sản phẩm: " + name + " , " + " Giá sản phẩm: " + price;
+    }
+    
+    public String formatToSaveFile(){
+        return id + ", " + name + ", " + price;
     }
 
 }

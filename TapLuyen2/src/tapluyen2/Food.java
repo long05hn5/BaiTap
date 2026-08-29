@@ -12,7 +12,7 @@ public class Food extends Product {
         this.expiryDate = expiryDate;
     }
 
-    public Food(String expiryDate, int id, String name, double price) {
+    public Food(int id, String name, double price,String expiryDate) {
         super(id, name, price);
         this.expiryDate = expiryDate;
     }
@@ -44,7 +44,12 @@ public class Food extends Product {
  
     @Override
     public String toString() {
-        return  super.toString() + "Ngày hết hạn: " + expiryDate ;
+        return  super.toString() + " , "  + "Ngày hết hạn: " + expiryDate ;
+    }
+
+    @Override
+    public String formatToSaveFile() {
+        return "f" + "," +super.formatToSaveFile() + ", " + expiryDate;
     }
      
     
