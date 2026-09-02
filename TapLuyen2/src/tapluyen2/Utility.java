@@ -138,8 +138,7 @@ public class Utility {
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    String[] parts = line.split(", ");
-          
+                    String[] parts = line.split(", ");      
                     if (parts[0].equals("f")) {
                         String id = parts[1];
                         String name = parts[2];
