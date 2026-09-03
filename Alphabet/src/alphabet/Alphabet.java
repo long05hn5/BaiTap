@@ -4,6 +4,8 @@
  */
 package alphabet;
 
+
+
 /**
  *
  * @author Admin
@@ -14,6 +16,7 @@ public class Alphabet {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+      
       Utility ut = new Utility();
       ut.caculate();
     }
