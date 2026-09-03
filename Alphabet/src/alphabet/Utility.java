@@ -5,17 +5,19 @@ package alphabet;
 import java.util.Scanner;
 
 public class Utility {
-    String text = "";
+
     public String classification() {
-            char first = text.toLowerCase().charAt(0);
-            switch (first) {
-                case 'a', 'e', 'u', 'i', 'o':
-                    return "Nguyên âm";
-                case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
-                    return "Chữ số";
-                default:
-                    return "Ký tự khác";
-            }
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine();
+        char first = input.toLowerCase().charAt(0);
+        switch (first) {
+            case 'a', 'e', 'u', 'i', 'o':
+                return "Nguyên âm";
+            case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
+                return "Chữ số";
+            default:
+                return "Ký tự khác";
+        }
     }
 
     public void caculate() {
@@ -23,8 +25,7 @@ public class Utility {
         String input = sc.nextLine();
         int countNA = 0, countCS = 0, countKTK = 0;
         String[] parts = input.split(" ");
-        for (String part : parts) {           
-            text = part;
+        for (String part : parts) {
             String count = classification();
             if (count.equals("Nguyên âm")) {
                 countNA++;
