@@ -17,7 +17,7 @@ public class Main {
         Utility ut = new Utility();
         ut.readCustomersFromFile();
         ut.readProductFromToFile();
-        ut.createInvoice();
+        ut.invoiceFile();
     
     }
     

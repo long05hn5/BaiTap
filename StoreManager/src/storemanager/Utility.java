@@ -166,7 +166,7 @@ public class Utility {
         return null;
     }
 
-    public void createInvoice() {
+    public String createInvoice() {
         Scanner sc = new Scanner(System.in);
         Product p;
         Customer cus;
@@ -192,16 +192,19 @@ public class Utility {
         System.out.println("Nhập sản phẩm khách chọn");
         productName = sc.nextLine();
         p = checkProductByName(productName);
-        
+
         System.out.println("Số lượng sản phẩm mà khách chọn");
         quantity = sc.nextInt();
         double total = totalInvoice(quantity, productName);
         System.out.println(total);
+
+        String all = "Tên khách hàng: " + cus.getNameCustomer() + " Số điện thoại: " + cus.getPhoneNumber() + " Tổng số tiền: "+total;
+        return all;
     }
 
     public double totalInvoice(int quantity, String productName) {
         for (Product p : products) {
-            if(p.getNameProduct().equalsIgnoreCase(productName)){
+            if (p.getNameProduct().equalsIgnoreCase(productName)) {
                 double total = quantity * p.getPrice();
                 return total;
             }
@@ -213,24 +216,12 @@ public class Utility {
     //Lay du lieu product update vao invoice tren.
     //Viet ham tinh tong total dua vao list invoice bang cach duyet vong for va tinh tong.
     public boolean invoiceFile() {
-                  try (PrintWriter writer = new PrintWriter(new FileWriter(INVOICE_FILE))) {
-                    while ((line = reader.readLine()) != null) {
-                        String[] parts = line.split(", ");
-                        for (Customer cus : inforCustomer) {
-                            nameCustomer = cus.getNameCustomer();
-                            break;
-                        }
-                        for (Employee emp : inforEmployee) {
-                            id = emp.getId();
-                            break;
-                        }
-
-                    }
-                    System.out.println(nameCustomer + id);
-                } catch (Exception e) {
-                    System.out.println("invoiceFile" + e.getMessage());
-                }
-            }
+        try (PrintWriter writer = new PrintWriter(new FileWriter(INVOICE_FILE))) {
+            writer.println(createInvoice());
+            return true;
+        } catch (Exception e) {
+            System.out.println("invoiceFile" + e.getMessage());
+            return false;
         }
 
     }
