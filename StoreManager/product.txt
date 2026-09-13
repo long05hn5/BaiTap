@@ -1,0 +1,3 @@
+P1, Ca Phe muoi, 50000
+P2, Tra chanh, 10000
+P3, Tra sua, 25000
