@@ -11,10 +11,10 @@ import java.util.Scanner;
 
 public class Utility {
 
-    public List<Product> products;
+    public List<Product> products;//Tao 1 list khai bao bien toan cuc
 
     public Utility() {
-        products = new ArrayList<>();
+        products = new ArrayList<>();//Them san pham vao list
         loadProductFromFile();
     }
     public static final String DEFAUL_FILE = "product.txt";
@@ -116,10 +116,10 @@ public class Utility {
         getProductById(id).input(sc);
     }
 
-    public boolean saveFile() {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(DEFAUL_FILE))) {
-            for (Product p : products) {
-                writer.println(p.formatToSaveFile());
+    public boolean saveFile() {//luu file
+        try (PrintWriter writer = new PrintWriter(new FileWriter(DEFAUL_FILE))) {//tao 1 object de sava file co ten la ....'
+            for (Product p : products) {//duyet 1 list product
+               writer.print(p.formatToSaveFile());//luu vao file cac tham so
             }
             return true;
         } catch (Exception ex) {
@@ -129,7 +129,7 @@ public class Utility {
 
     }
 
-    public void loadProductFromFile() {
+    public void loadProductFromFile() {//tu file nhap vao
         File file = new File(DEFAUL_FILE);
         if (file.exists() == false) {
             System.out.println("File khong ton tai");

@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,7 +15,7 @@ public class Utility {
 
     public List<Employee> employees;
     public List<Customer> customers;
-    public List<Invoice> invoices;
+    public List<InvoiceItem> invoices;
     public List<Product> products;
 
     public Utility() {
@@ -43,9 +44,9 @@ public class Utility {
                     String password = parts[2];
                     String name = parts[3];
                     String phoneNumber = parts[4];
-                    Employee emp = new Employee(id, username, password, name, phoneNumber, name);
+                    String address = parts[5];
+                    Employee emp = new Employee(id, username, password, name, phoneNumber, address);
                     employees.add(emp);
-                    System.out.println(emp);
 
                 }
             } catch (Exception e) {
@@ -64,9 +65,10 @@ public class Utility {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     String[] parts = line.split(", ");
-                    String nameCustomer = parts[0];
-                    String phoneNumber = parts[1];
-                    Customer cus = new Customer(nameCustomer, phoneNumber);
+                    String customerId = parts[0];
+                    String nameCustomer = parts[1];
+                    String phoneNumber = parts[2];
+                    Customer cus = new Customer(customerId, nameCustomer, phoneNumber);
                     customers.add(cus);
                 }
             } catch (Exception e) {
@@ -106,46 +108,26 @@ public class Utility {
             }
 
         } catch (Exception e) {
-            System.out.println("readProductFromToFile" + e.getMessage());
+            System.out.println("writeProducttoFile()" + e.getMessage());
 
         }
 
     }
 
-    public boolean loginEmployee() {
-        File file = new File(LOGIN_FILE);
-        if (file.exists() == false) {
-            System.out.println("Không có file");
-            return false;
-        } else {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                String line;
-                String username;
-                String password;
-                String usernameEmp;
-                String passwordEmp;
-                Scanner sc = new Scanner(System.in);
-                username = sc.nextLine();
-                password = sc.nextLine();
-                while ((line = reader.readLine()) != null) {
-                    do {
-                        String[] parts = line.split(", ");
-                        usernameEmp = parts[2];
-                        passwordEmp = parts[3];
-                        if (username.equals(usernameEmp) && password.equals(passwordEmp)) {
-                            System.out.println("Xác thực thành công");
-                        } else {
-                            System.out.println("Tài khoản hoặc mật khẩu sai");
-                        }
-                    } while (!username.equals(usernameEmp) || !password.equals(passwordEmp));
-                    return true;
+    public Employee loginEmployee() {
+        Scanner sc = new Scanner(System.in);
+        while(true){
+            System.out.print("Nhập tài khoản:");
+            String username = sc.nextLine();
+            System.out.print("Nhập mật khẩu:");
+            String password = sc.nextLine();
+            for(Employee emp : employees){
+                if(emp.getUsername().equals(username) && emp.getPassword().equals(password)){
+                    return emp;
                 }
-            } catch (Exception e) {
-                System.out.println("loginEsmployee" + e.getMessage());
-                return false;
             }
+            System.out.println("Tài khoản hoặc mật khẩu sai");
         }
-        return false;
     }
 
     public Customer checkCustomer(String phoneNumber) {
@@ -157,7 +139,7 @@ public class Utility {
         return null;
     }
 
-    public Product checkProductByName(String productName) {
+    public Product checkProductByName(String productName) {//Hàm check xem có sản phẩm 
         for (Product p : products) {
             if (productName.equalsIgnoreCase(p.getNameProduct())) {
                 return p;
@@ -166,64 +148,111 @@ public class Utility {
         return null;
     }
 
-    public String createInvoice() {
+
+    public void Order() {
+        Employee emp = loginEmployee();
         Scanner sc = new Scanner(System.in);
-        Product p;
-        Customer cus;
-        int quantity;
-        String productName;
-        String phoneNumber;
-        String nameCustomer;
-        do {
-            System.out.println("Nhập số điện thoại khách hàng");
-            phoneNumber = sc.nextLine();
-            cus = checkCustomer(phoneNumber);
-            if (cus == null) {
-                System.out.println("Nhập tên của khách hàng");
-                nameCustomer = sc.nextLine();
-                System.out.println("Nhập số điện thoại mới của khách hàng");
-                phoneNumber = sc.nextLine();
-                cus = new Customer(nameCustomer, phoneNumber);
-                customers.add(cus);
-                writeProducttoFile();
-            }
-        } while (cus == null);
-
-        System.out.println("Nhập sản phẩm khách chọn");
-        productName = sc.nextLine();
-        p = checkProductByName(productName);
-
-        System.out.println("Số lượng sản phẩm mà khách chọn");
-        quantity = sc.nextInt();
-        double total = totalInvoice(quantity, productName);
-        System.out.println(total);
-
-        String all = "Tên khách hàng: " + cus.getNameCustomer() + " Số điện thoại: " + cus.getPhoneNumber() + " Tổng số tiền: "+total;
-        return all;
+        System.out.println("Vui lòng nhập số điện thoại: ");
+        String phoneNumber = sc.nextLine();
+        Customer cus = checkCustomer(phoneNumber);
+        Invoice invoice;
+        if (cus != null) {
+            printMenu();
+            List<InputFromCustomer> inputs = inputFC(sc);
+            invoice = createInvoice(cus, inputs, emp);
+            printInvoice(invoice);
+         
+        } else {
+            createNewCustomer(sc);
+            printMenu();
+            List<InputFromCustomer> inputs = inputFC(sc);
+            invoice = createInvoice(cus, inputs, emp);
+            printInvoice(invoice);
+        }
     }
 
-    public double totalInvoice(int quantity, String productName) {
-        for (Product p : products) {
-            if (p.getNameProduct().equalsIgnoreCase(productName)) {
-                double total = quantity * p.getPrice();
-                return total;
-            }
+    public void createNewCustomer(Scanner sc) {
+        int id = customers.size() + 1;
+        String customerId = "C" + id;
+        System.out.println("Nhập tên khách hàng mới: ");
+        String nameCustomer = sc.nextLine();
+        System.out.println("Nhập số điện thoại mới của khách hàng: ");
+        String phoneNumber = sc.nextLine();
+        Customer cus = new Customer(customerId, nameCustomer, phoneNumber);
+        customers.add(cus);
+    }
+
+    public void printInvoice(Invoice invoice) {
+        //Ham nay de in ra toan bo hoa don + khach hang + chi tiet hoa don
+        for (InvoiceItem in : invoice.getItems()) {
+            System.out.println(in.toString());
         }
-        return 0;
+        System.out.println(invoice.toString());
+        System.out.println("Tổng số tiền là");
+        System.out.println(invoice.getTotal());
+    }
+
+    public List<InputFromCustomer> inputFC(Scanner sc) {
+        List<InputFromCustomer> currentList = new ArrayList<>();
+
+        System.out.println("Nhập lựa chọn (1: Thêm sản phẩm, 0: Thoát):");
+        int choice = sc.nextInt();
+
+        // Điều kiện dừng đệ quy
+        if (choice == 0) {
+            return currentList;
+        }
+
+        if (choice == 1) {
+            // Cần xử lý trôi lệnh (clear buffer) trước khi nhập chuỗi
+            sc.nextLine();
+
+            System.out.println("Nhập tên sản phẩm:");
+            String productName = sc.nextLine();
+
+            System.out.println("Số lượng muốn:");
+            int quantity = sc.nextInt();
+
+            // Khởi tạo đối tượng
+            InputFromCustomer iFC = new InputFromCustomer(productName, quantity);
+            currentList.add(iFC);
+
+            // Gọi đệ quy để tiếp tục quá trình nhập
+            List<InputFromCustomer> nextItems = inputFC(sc);
+
+            // Gộp kết quả đệ quy vào danh sách hiện tại
+            currentList.addAll(nextItems);
+        } else {
+            System.out.println("Lựa chọn không hợp lệ, vui lòng thử lại.");
+            return inputFC(sc); // Gọi lại nếu nhập sai
+        }
+
+        return currentList;
+    }
+
+    public Invoice createInvoice(Customer cus, List<InputFromCustomer> inputs, Employee emp) {
+        ArrayList<InvoiceItem> items = new ArrayList<>();
+        Date date = new Date();
+        for (InputFromCustomer input : inputs) {
+            Product p = checkProductByName(input.getProductName());
+            InvoiceItem item = new InvoiceItem(p.getProductId(), p.getPrice(), input.getQuantity());
+            items.add(item);
+        }
+        Invoice invoice = new Invoice(items, cus.getCustomerId(),
+                emp.getId(), date.toString());
+
+        return invoice;
     }
 
     //Kiem tra customer co hay chua, neu co goi ham lay du lieu cua customer insert vao invoice
     //Lay du lieu product update vao invoice tren.
     //Viet ham tinh tong total dua vao list invoice bang cach duyet vong for va tinh tong.
-    public boolean invoiceFile() {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(INVOICE_FILE))) {
-            writer.println(createInvoice());
-            return true;
-        } catch (Exception e) {
-            System.out.println("invoiceFile" + e.getMessage());
-            return false;
+    public void printMenu() {
+        System.out.println("Vui lòng chọn sản phẩm: ");
+        for (Product p : products) {
+            System.out.println(p.getNameProduct());
+            System.out.println("========");
         }
-
-    }
+    }//
 
 }

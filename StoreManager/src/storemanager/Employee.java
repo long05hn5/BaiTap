@@ -8,13 +8,15 @@ public class Employee {
     }
 
     public Employee(String id, String username, String password, String name, String phoneNumber, String address) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.id = id;
     }
+
+    
 
     public String getUsername() {
         return username;
@@ -66,7 +68,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return  id + username + password + name + phoneNumber + address;
+        return name;
     }
 
 }

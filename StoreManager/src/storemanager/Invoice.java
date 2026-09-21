@@ -1,71 +1,73 @@
 package storemanager;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Invoice {
 
-    private String nameCustomer;
-    private String idEmployee;
-    private String productName;
-    private Date date;
-    private double price;
+    private ArrayList<InvoiceItem> items;
+    private String customerId;
+    private String employeeId;
+    private String date;
+    private double total;
 
     public Invoice() {
     }
 
-    public Invoice(String nameCustomer, String idEmployee, String productName, Date date, double price) {
-        this.nameCustomer = nameCustomer;
-        this.idEmployee = idEmployee;
-        this.productName = productName;
+    public Invoice(ArrayList<InvoiceItem> items, String customerId, String employeeId, String date) {
+        this.items = items;
+        this.customerId = customerId;
+        this.employeeId = employeeId;
         this.date = date;
-        this.price = price;
     }
 
-    public String getNameCustomer() {
-        return nameCustomer;
+    public ArrayList<InvoiceItem> getItems() {
+        return items;
     }
 
-    public void setNameCustomer(String nameCustomer) {
-        this.nameCustomer = nameCustomer;
+    public void setItems(ArrayList<InvoiceItem> items) {
+        this.items = items;
     }
 
-    public String getIdEmployee() {
-        return idEmployee;
+    public String getCustomerId() {
+        return customerId;
     }
 
-    public void setIdEmployee(String idEmployee) {
-        this.idEmployee = idEmployee;
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getEmployeeId() {
+        return employeeId;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public double getPrice() {
-        return price;
+    public double getTotal() {
+        return caculateTotal();
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public double caculateTotal() {
+        for (InvoiceItem item : items) {
+            total = total + item.getTotal();
+        }
+        return total;
     }
-
-   
 
     @Override
     public String toString() {
-        return nameCustomer + productName ;
+        return items + ", " + employeeId + ", " + customerId + ", " + date + ", " + total;
     }
 
 }

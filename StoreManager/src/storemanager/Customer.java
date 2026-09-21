@@ -10,14 +10,23 @@ package storemanager;
  */
 public class Customer {
 
-    private String nameCustomer, phoneNumber;
+    private String customerId, nameCustomer, phoneNumber;
 
     public Customer() {
     }
 
-    public Customer(String nameCustomer, String phoneNumber) {
+    public Customer(String customerId, String nameCustomer, String phoneNumber) {
+        this.customerId = customerId;
         this.nameCustomer = nameCustomer;
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 
     public String getNameCustomer() {
@@ -36,10 +45,7 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-    @Override
-    public String toString() {
-        return "Tên khách hàng: " + nameCustomer + ", " + "Số điện thoại khách hàng:" + phoneNumber;
-    }
+   
 
     public String formatToSaveFile() {
         return nameCustomer + ", " + phoneNumber;

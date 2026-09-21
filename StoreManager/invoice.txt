@@ -1,0 +1,1 @@
+Tên khách hàng: Long,  Số điện thoại: 012,  Tổng số tiền: 100000.0
