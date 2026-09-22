@@ -45,10 +45,8 @@ public class Customer {
         this.phoneNumber = phoneNumber;
     }
 
-   
-
     public String formatToSaveFile() {
-        return nameCustomer + ", " + phoneNumber;
+        return customerId + ", " + nameCustomer + ", " + phoneNumber;
     }
 
 }

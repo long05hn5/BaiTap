@@ -15,14 +15,16 @@ public class Utility {
 
     public List<Employee> employees;
     public List<Customer> customers;
-    public List<InvoiceItem> invoices;
+    public List<InvoiceItem> items;
     public List<Product> products;
+    public List<Invoice> invoices;
 
     public Utility() {
         employees = new ArrayList<>();
         customers = new ArrayList<>();
-        invoices = new ArrayList<>();
+        items = new ArrayList<>();
         products = new ArrayList<>();
+        invoices = new ArrayList<>();
     }
 
     public static final String LOGIN_FILE = "login.txt";
@@ -47,7 +49,6 @@ public class Utility {
                     String address = parts[5];
                     Employee emp = new Employee(id, username, password, name, phoneNumber, address);
                     employees.add(emp);
-
                 }
             } catch (Exception e) {
                 System.out.println("loginEmployee" + e.getMessage());
@@ -104,12 +105,9 @@ public class Utility {
         try (PrintWriter writer = new PrintWriter(new FileWriter(CUSTOMER_FILE))) {
             for (Customer cus : customers) {
                 writer.println(cus.formatToSaveFile());
-
             }
-
         } catch (Exception e) {
             System.out.println("writeProducttoFile()" + e.getMessage());
-
         }
 
     }
@@ -148,7 +146,6 @@ public class Utility {
         return null;
     }
 
-
     public void Order() {
         Employee emp = loginEmployee();
         Scanner sc = new Scanner(System.in);
@@ -169,6 +166,7 @@ public class Utility {
             invoice = createInvoice(cus, inputs, emp);
             printInvoice(invoice);
         }
+        saveInvoice();
     }
 
     public void createNewCustomer(Scanner sc) {
@@ -179,7 +177,9 @@ public class Utility {
         System.out.println("Nhập số điện thoại mới của khách hàng: ");
         String phoneNumber = sc.nextLine();
         Customer cus = new Customer(customerId, nameCustomer, phoneNumber);
+        saveCustomer();
         customers.add(cus);
+        
     }
 
     public void printInvoice(Invoice invoice) {
@@ -190,8 +190,9 @@ public class Utility {
         System.out.println(invoice.toString());
         System.out.println("Tổng số tiền là");
         System.out.println(invoice.getTotal());
+        
     }
-
+    
     public List<InputFromCustomer> inputFC(Scanner sc) {
         List<InputFromCustomer> currentList = new ArrayList<>();
 
@@ -240,10 +241,33 @@ public class Utility {
         }
         Invoice invoice = new Invoice(items, cus.getCustomerId(),
                 emp.getId(), date.toString());
-
+        invoices.add(invoice);
         return invoice;
     }
+    public boolean saveCustomer() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(CUSTOMER_FILE))) {
+            for (Customer cus : customers) {
+               writer.println(cus.formatToSaveFile());
+            }
+            return true;
+        } catch (Exception ex) {
+            System.out.println("saveCustomer" + ex.getMessage());
+            return false;
+        }
 
+    }
+    public boolean saveInvoice(){
+        try(PrintWriter writer = new PrintWriter(new FileWriter(INVOICE_FILE))){
+            for(Invoice invoice : invoices){
+                writer.println(invoice.toString());
+            }
+            return true;
+        }catch(Exception ex){
+            System.out.println("saveInvoice" + ex.getMessage());
+            return false;
+        }
+        
+    }
     //Kiem tra customer co hay chua, neu co goi ham lay du lieu cua customer insert vao invoice
     //Lay du lieu product update vao invoice tren.
     //Viet ham tinh tong total dua vao list invoice bang cach duyet vong for va tinh tong.
@@ -253,6 +277,5 @@ public class Utility {
             System.out.println(p.getNameProduct());
             System.out.println("========");
         }
-    }//
-
+    }
 }

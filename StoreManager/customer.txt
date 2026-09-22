@@ -1,1 +1,2 @@
 C1, Long, 0123
+C2, LongDepTrai, 1023
